@@ -28,14 +28,15 @@ const ENTRIES: { no: string; title: string; text: string; status: Status; date?:
   {
     no: "04",
     title: "Load test",
-    text: "k6 runs against the live service. Requests per second, p99 latency, and a check that no assignment or reward is lost.",
-    status: "next",
+    text: "A load test that sends tens of thousands of visitors, reports every conversion twice, then checks that Redis and PostgreSQL both match exactly what was sent. Throughput and p99 latency come out of the same run.",
+    status: "done",
+    date: "25 Nov",
   },
   {
     no: "05",
     title: "Contextual mode and SDK",
     text: "Per-user features so the best variant can differ by audience, plus a small npm package for apps.",
-    status: "todo",
+    status: "next",
   },
 ];
 

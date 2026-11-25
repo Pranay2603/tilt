@@ -23,6 +23,11 @@ export class ExperimentsController {
     return this.experiments.state(key);
   }
 
+  @Get(":key/audit")
+  audit(@Param("key") key: string) {
+    return this.experiments.audit(key);
+  }
+
   @Post(":key/assign")
   @HttpCode(200)
   assign(@Param("key") key: string, @Body(new ZodPipe(visitorSchema)) body: Visitor) {

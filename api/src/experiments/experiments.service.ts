@@ -174,6 +174,35 @@ export class ExperimentsService {
     return { experiment: key, userKey, counted: true };
   }
 
+  /**
+   * Compare what Redis served with what PostgreSQL has stored, plus the queue backlog.
+   * `consistent` is true once the worker has caught up and the two agree exactly.
+   */
+  async audit(key: string) {
+    const meta = await this.meta(key);
+    const redis = await this.counts(key, meta);
+    const stored = await this.db.query<{ key: string; impressions: string; conversions: string }>(
+      `SELECT v.key, v.impressions, v.conversions FROM variants v JOIN experiments e ON e.id = v.experiment_id
+        WHERE e.key = $1 ORDER BY v.position`,
+      [key],
+    );
+    const postgres = stored.rows.map((v) => ({
+      impressions: Number(v.impressions),
+      conversions: Number(v.conversions),
+    }));
+    const queue = await this.events.depth();
+    const same = JSON.stringify(redis) === JSON.stringify(postgres);
+    const sum = (rows: { impressions: number; conversions: number }[], f: "impressions" | "conversions") =>
+      rows.reduce((t, r) => t + r[f], 0);
+    return {
+      key,
+      redis: { impressions: sum(redis, "impressions"), conversions: sum(redis, "conversions") },
+      postgres: { impressions: sum(postgres, "impressions"), conversions: sum(postgres, "conversions") },
+      queue,
+      consistent: same && queue.waiting + queue.active + queue.delayed === 0,
+    };
+  }
+
   private assigned(meta: Meta, key: string, userKey: string, variantKey: string, returning: boolean) {
     const v = meta.variants.find((x) => x.key === variantKey);
     return { experiment: key, userKey, variant: { key: variantKey, name: v?.name ?? variantKey }, returning };

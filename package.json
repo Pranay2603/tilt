@@ -2,12 +2,18 @@
   "name": "tilt",
   "private": true,
   "version": "0.1.0",
-  "workspaces": ["engine", "web", "api"],
+  "workspaces": [
+    "engine",
+    "web",
+    "api",
+    "loadtest"
+  ],
   "scripts": {
     "test": "npm run test -w engine && npm run test -w api",
     "test:engine": "npm run test -w engine",
     "dev:api": "npm run dev -w api",
     "dev:web": "npm run dev -w web",
-    "build:web": "npm run build -w web"
+    "build:web": "npm run build -w web",
+    "loadtest": "npm run start -w loadtest"
   }
 }
