@@ -16,5 +16,21 @@ services:
       timeout: 3s
       retries: 10
 
+  redis:
+    image: redis:7
+    # appendonly keeps queued events across a restart; noeviction makes Redis refuse writes
+    # instead of silently dropping a visitor's assignment when memory runs out.
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
 volumes:
   pgdata:
+  redisdata:

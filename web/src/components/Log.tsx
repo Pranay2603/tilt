@@ -14,21 +14,22 @@ const ENTRIES: { no: string; title: string; text: string; status: Status; date?:
   {
     no: "02",
     title: "Service",
-    text: "NestJS API on PostgreSQL. Sticky assignments, one conversion per visitor, and counts the database itself refuses to let go wrong. 25 concurrency tests against a real database, no mocks.",
+    text: "NestJS API on PostgreSQL. Sticky assignments, one conversion per visitor, and counts the database itself refuses to let go wrong.",
     status: "done",
     date: "25 Nov",
   },
   {
     no: "03",
     title: "Fast path",
-    text: "Redis cache for variant assignment and a BullMQ queue so reward events never block the request.",
-    status: "next",
+    text: "Requests are served from Redis with atomic Lua scripts. A BullMQ worker writes to PostgreSQL with idempotent, retryable jobs, and a wiped cache rebuilds itself. 18 tests against real Redis and PostgreSQL.",
+    status: "done",
+    date: "25 Nov",
   },
   {
     no: "04",
     title: "Load test",
     text: "k6 runs against the live service. Requests per second, p99 latency, and a check that no assignment or reward is lost.",
-    status: "todo",
+    status: "next",
   },
   {
     no: "05",
