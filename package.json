@@ -1,0 +1,11 @@
+{
+  "name": "tilt",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["engine", "web"],
+  "scripts": {
+    "test": "npm run test -w engine",
+    "dev:web": "npm run dev -w web",
+    "build:web": "npm run build -w web"
+  }
+}
