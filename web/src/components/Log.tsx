@@ -14,14 +14,15 @@ const ENTRIES: { no: string; title: string; text: string; status: Status; date?:
   {
     no: "02",
     title: "Service",
-    text: "NestJS API and PostgreSQL schema. Posterior updates under SELECT … FOR UPDATE SKIP LOCKED so concurrent rewards never corrupt state.",
-    status: "next",
+    text: "NestJS API on PostgreSQL. Sticky assignments, one conversion per visitor, and counts the database itself refuses to let go wrong. 25 concurrency tests against a real database, no mocks.",
+    status: "done",
+    date: "25 Nov",
   },
   {
     no: "03",
     title: "Fast path",
     text: "Redis cache for variant assignment and a BullMQ queue so reward events never block the request.",
-    status: "todo",
+    status: "next",
   },
   {
     no: "04",
